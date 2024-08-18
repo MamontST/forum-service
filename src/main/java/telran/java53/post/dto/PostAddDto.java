@@ -1,4 +1,4 @@
-package telran.java53.forum.dto;
+package telran.java53.post.dto;
 
 import java.util.HashSet;
 
@@ -15,5 +15,5 @@ public class PostAddDto {
 	String content;
 	
 	@Singular
-	HashSet<String>[] tags;
+	HashSet<String> tags;
 }

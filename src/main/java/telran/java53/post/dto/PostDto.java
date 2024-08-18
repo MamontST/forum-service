@@ -1,9 +1,8 @@
-package telran.java53.forum.dto;
+package telran.java53.post.dto;
 
 import java.time.LocalDateTime;
-
+import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +20,7 @@ public class PostDto {
 	  LocalDateTime dateCreated;
 	  
 	  @Singular
-	  Set<String> tags;
+	  HashSet<String> tags;
 	  Integer likes;
 	  
 	  @Singular
