@@ -1,6 +1,7 @@
 package telran.java53.post.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -23,15 +24,14 @@ public class Post {
 	LocalDateTime dateCreated = LocalDateTime.now();
 	HashSet<String> tags;
 	Integer likes = 0;
-	List<CommentDto> comments;
+	List<CommentDto> comments = new ArrayList<>();
 
-	public Post(String id, String title, String content, String author, LocalDateTime dateCreated,
+	public Post(String id, String title, String content, String author,
 			HashSet<String> tags) {
 		this.id = id;
 		this.title = title;
 		this.content = content;
 		this.author = author;
-		this.dateCreated = dateCreated;
 		this.tags = tags;
 	}
 

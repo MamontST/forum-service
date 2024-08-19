@@ -10,15 +10,15 @@ import telran.java53.post.dto.PostDto;
 public interface ForumService {
 
 	PostDto addPost(String author, PostAddDto postAddDto);
-	
+
 	PostDto removePost(String postId);
-	
+
 	PostDto updatePost(String postId, PostAddDto postAddDto);
 
 	void addLike(String postId);
-	
+
 	PostDto addComment(String postId, String author, CommentAddDto commentAddDto);
-	
+
 	PostDto findPostById(String postId);
 
 	List<PostDto> findPostByAuthor(String author);
@@ -26,6 +26,5 @@ public interface ForumService {
 	List<PostDto> findPostByTags(List<String> tags);
 
 	List<PostDto> findPostByPeriod(DatePeriodDto datePeriodDto);
-
 
 }

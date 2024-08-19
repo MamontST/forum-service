@@ -59,11 +59,11 @@ public class ForumController {
 	}
 
 	@PostMapping("/forum/posts/tags")
-	public List<PostDto> findPostByTags(List<String> tags) {
+	public List<PostDto> findPostByTags(@RequestBody List<String> tags) {
 		return forumService.findPostByTags(tags);
 	}
 
-	@PostMapping("/posts/period")
+	@PostMapping("/forum/posts/period")
 	public List<PostDto> findPostByPeriod(@RequestBody DatePeriodDto datePeriodDto) {
 		return forumService.findPostByPeriod(datePeriodDto);
 	}

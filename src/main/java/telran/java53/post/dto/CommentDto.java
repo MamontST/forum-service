@@ -14,4 +14,11 @@ public class CommentDto {
 	String message;
 	LocalDateTime dateCreated;
 	Integer likes;
+	
+    public CommentDto(String author, String message) {
+        this.author = author;
+        this.message = message;
+        this.dateCreated = LocalDateTime.now(); 
+        this.likes = 0;                         
+    }
 }
