@@ -1,5 +1,6 @@
 package telran.java53.post.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.modelmapper.ModelMapper;
@@ -70,15 +71,15 @@ public class ForumServiceImpl implements ForumService {
 
 	@Override
 	public List<PostDto> findPostByTags(List<String> tags) {
-		return postRepository.findByTagsIn(tags)
+		return postRepository.findByTagsInIgnoreCase(tags)
 				.map(post -> modelMapper.map(post, PostDto.class))
 				.toList();
 	}
 
 	@Override
 	public List<PostDto> findPostByPeriod(DatePeriodDto datePeriodDto) {
-		LocalDateTime dateFrom = datePeriodDto.getDateFrom().atStartOfDay();
-	    LocalDateTime dateTo = datePeriodDto.getDateTo().plusDays(1).atStartOfDay();
+		LocalDate dateFrom = datePeriodDto.getDateFrom();
+	    LocalDate dateTo = datePeriodDto.getDateTo().plusDays(1);
 		return postRepository.findByDateCreatedBetween(dateFrom, dateTo)
 				.map(post -> modelMapper.map(post, PostDto.class))
 				.toList();
