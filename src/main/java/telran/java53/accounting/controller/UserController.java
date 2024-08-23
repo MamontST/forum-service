@@ -8,7 +8,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
+
+import org.springframework.http.HttpStatus;
 
 import lombok.RequiredArgsConstructor;
 import telran.java53.accounting.dto.RolesDto;
@@ -35,8 +40,8 @@ public class UserController {
 	}
 
 	@PostMapping("/login")
-	public UserDto getLogin(@RequestHeader("Authorization") String login) {
-		return userAccountService.getUser(login);
+	public UserDto getLogin(Principal principal) {
+		return userAccountService.getUser(principal.getName());
 	}
 
 	@DeleteMapping("/user/{user}")
@@ -53,22 +58,18 @@ public class UserController {
 
 	@PutMapping("/user/{user}/role/{role}")
 	public RolesDto addRole(@PathVariable("user") String login, @PathVariable String role) {
-		
-		boolean isAddRoles = true;
-		return userAccountService.changeRolesList(login, role, isAddRoles);
+		return userAccountService.changeRolesList(login, role, true);
 	}
 
 	@DeleteMapping("/user/{user}/role/{role}")
 	public RolesDto removeRole(@PathVariable("user") String login, @PathVariable String role) {
-		
-		boolean isAddRoles = false;
-		return userAccountService.changeRolesList(login, role, isAddRoles);
+		return userAccountService.changeRolesList(login, role, false);
 	}
 	
 	@PutMapping("/password")
-	public void changePassword(@RequestHeader("Authorization") String login, @RequestHeader(value = "X-Password") String newPassword) {
-		// TODO Auto-generated method stub
-
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void changePassword(Principal principal, @RequestHeader("X-Password") String newPassword) {
+		userAccountService.changePassword(principal.getName(), newPassword);
 	}
 
 }
