@@ -38,7 +38,6 @@ public class AuthenticationFilter implements Filter {
 				if (!BCrypt.checkpw(credentials[1], user.getPassword())) {
 					throw new RuntimeException();
 				}
-				System.out.println("Creating WrappedRequest with login: " + user.getLogin());
 				request = new WrappedRequest(request, user.getLogin());
 			} catch (Exception e) {
 				response.sendError(401);
@@ -46,7 +45,6 @@ public class AuthenticationFilter implements Filter {
 			}
 		}
 		chain.doFilter(request, response);
-		System.out.println("AuthenticationFilter: Цепочка продолжена");
 	}
 
 	private boolean checkEndpoint(String method, String path) {
