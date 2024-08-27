@@ -3,6 +3,7 @@ package telran.java53.security.filter;
 import java.io.IOException;
 
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.Filter;
@@ -21,10 +22,11 @@ import telran.java53.accounting.model.User;
 
 @Component
 @RequiredArgsConstructor
-@Order(20)
-public class AdminManagingRolesFilter implements Filter {
+@Order(40)
+public class DeleteUserFilter implements Filter {
+	
 	final UserRepository userRepository;
-
+	
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
 			throws IOException, ServletException {
@@ -33,18 +35,19 @@ public class AdminManagingRolesFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) resp;
 		if (checkEndpoint(request.getMethod(), request.getServletPath())) {
 			String principal = request.getUserPrincipal().getName();
-			User userAccount = userRepository.findById(principal).get();
-			if (!userAccount.getRoles().contains(Role.ADMINISTRATOR)) {
-				response.sendError(403, "You are not allowed to access this resource");
+            User userAccount = userRepository.findById(principal).get();
+			String[] arr = request.getServletPath().split("/");
+			String owner = arr[arr.length - 1];
+			if (!(userAccount.getRoles().contains(Role.ADMINISTRATOR) || principal.equalsIgnoreCase(owner))) {
+				response.sendError(403, "Permission denied");
 				return;
 			}
 		}
-
 		chain.doFilter(request, response);
 	}
 
 	private boolean checkEndpoint(String method, String path) {
-		return path.matches("/account/user/\\w+/role/\\w+");
+		return HttpMethod.DELETE.matches(method) && path.matches("/account/user/\\w+");
 	}
 
 }
