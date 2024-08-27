@@ -15,17 +15,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
-import telran.java53.accounting.dao.UserRepository;
 import telran.java53.accounting.model.Role;
-import telran.java53.accounting.model.User;
+import telran.java53.security.model.UserPrincipal;
 
 
 @Component
 @RequiredArgsConstructor
 @Order(40)
 public class DeleteUserFilter implements Filter {
-	
-	final UserRepository userRepository;
 	
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
@@ -34,11 +31,11 @@ public class DeleteUserFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
 		if (checkEndpoint(request.getMethod(), request.getServletPath())) {
-			String principal = request.getUserPrincipal().getName();
-            User userAccount = userRepository.findById(principal).get();
+			UserPrincipal user = (UserPrincipal) request.getUserPrincipal();
+          
 			String[] arr = request.getServletPath().split("/");
 			String owner = arr[arr.length - 1];
-			if (!(userAccount.getRoles().contains(Role.ADMINISTRATOR) || principal.equalsIgnoreCase(owner))) {
+			if (!(user.getRoles().contains(Role.ADMINISTRATOR.name()) || user.getName().equalsIgnoreCase(owner))) {
 				response.sendError(403, "Permission denied");
 				return;
 			}

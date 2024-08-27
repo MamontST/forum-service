@@ -1,12 +1,10 @@
 package telran.java53.post.dao;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 
 import telran.java53.post.model.Post;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Stream;
 
