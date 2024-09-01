@@ -1,5 +1,6 @@
 package telran.java53.accounting.model;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,10 +25,13 @@ public class UserAccount {
 	String password;
 	@Setter
 	Set<Role> roles;
+	@Setter
+	LocalDateTime passwordLastChanged;
 	
 	public UserAccount() {
 		roles = new HashSet<>();
 		roles.add(Role.USER);
+		passwordLastChanged = LocalDateTime.now();
 	}
 
 	public UserAccount(String login, String firstName, String lastName, String password) {
@@ -36,6 +40,7 @@ public class UserAccount {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.password = password;
+		this.passwordLastChanged = LocalDateTime.now();
 	}
 	
 	public boolean addRole(String role) {

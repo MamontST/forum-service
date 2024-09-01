@@ -1,5 +1,7 @@
 package telran.java53.accounting.service;
 
+import java.time.LocalDateTime;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -83,6 +85,7 @@ public class UserAccountServiceImpl implements UserAccountService,CommandLineRun
 		UserAccount user = userRepository.findById(login).orElseThrow(UserNotFoundException::new);
 		String password = passwordEncoder.encode(newPassword);
 		user.setPassword(password);
+		user.setPasswordLastChanged(LocalDateTime.now());
 		userRepository.save(user);
 
 	}
