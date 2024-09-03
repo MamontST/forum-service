@@ -8,7 +8,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
-
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
 
 import lombok.RequiredArgsConstructor;
 import telran.java53.accounting.model.Role;
@@ -18,11 +18,13 @@ import telran.java53.accounting.model.Role;
 public class SecurityConfiguration {
 	
 	final CustomWebSecurity webSecurity;
+	final ExpiredPasswordFilter expiredPasswordFilter;
 	
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.httpBasic(Customizer.withDefaults());
 		http.csrf(csrfCustomizer -> csrfCustomizer.disable());
+		http.addFilterBefore(expiredPasswordFilter, AuthorizationFilter.class);
 //		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
 		http.authorizeHttpRequests(authorize -> authorize
 				.requestMatchers("/account/register", "/forum/posts/**")
