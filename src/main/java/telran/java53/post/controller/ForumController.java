@@ -1,4 +1,4 @@
-package telran.java53.post.controller;
+	package telran.java53.post.controller;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -59,23 +59,23 @@ public class ForumController {
 	}
 
 	@GetMapping("/forum/posts/author/{user}")
-	public List<PostDto> findPostByAuthor(@PathVariable("user") String author) {
-		return forumService.findPostByAuthor(author);
+	public List<PostDto> findPostsByAuthor(@PathVariable("user") String author) {
+		return forumService.findPostsByAuthor(author);
 	}
 
 //	@PostMapping("/forum/posts/tags")
 	@GetMapping("/forum/posts/tags")
 //	public List<PostDto> findPostByTags(@RequestBody List<String> tags) {
-	public List<PostDto> findPostByTags(@RequestParam List<String> values) {
+	public List<PostDto> findPostsByTags(@RequestParam List<String> values) {
 //		return forumService.findPostByTags(tags);
-		return forumService.findPostByTags(values);
+		return forumService.findPostsByTags(values);
 	}
 
 //	@PostMapping("/forum/posts/period")
 	@GetMapping("/forum/posts/period")
 //	public List<PostDto> findPostByPeriod(@RequestBody DatePeriodDto datePeriodDto) {
-	public List<PostDto> findPostByPeriod(@RequestParam LocalDate dateFrom, @RequestParam LocalDate dateTo) {
-		return forumService.findPostByPeriod(new DatePeriodDto(dateFrom,dateTo));
+	public List<PostDto> findPostsByPeriod(@RequestParam LocalDate dateFrom, @RequestParam LocalDate dateTo) {
+		return forumService.findPostsByPeriod(new DatePeriodDto(dateFrom,dateTo));
 	}
 
 }

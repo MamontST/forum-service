@@ -48,7 +48,7 @@ public class ForumServiceImpl implements ForumService {
 	}
 
 	@Override
-	public List<PostDto> findPostByAuthor(String author) {
+	public List<PostDto> findPostsByAuthor(String author) {
 		return postRepository.findByAuthorIgnoreCase(author)
 				.map(post -> modelMapper.map(post, PostDto.class))
 				.toList();
@@ -71,14 +71,14 @@ public class ForumServiceImpl implements ForumService {
 	}
 
 	@Override
-	public List<PostDto> findPostByTags(List<String> tags) {
+	public List<PostDto> findPostsByTags(List<String> tags) {
 		return postRepository.findByTagsInIgnoreCase(tags)
 				.map(post -> modelMapper.map(post, PostDto.class))
 				.toList();
 	}
 
 	@Override
-	public List<PostDto> findPostByPeriod(DatePeriodDto datePeriodDto) {
+	public List<PostDto> findPostsByPeriod(DatePeriodDto datePeriodDto) {
 		LocalDate dateFrom = datePeriodDto.getDateFrom();
 	    LocalDate dateTo = datePeriodDto.getDateTo().plusDays(1);
 		return postRepository.findByDateCreatedBetween(dateFrom, dateTo)

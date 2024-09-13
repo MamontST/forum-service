@@ -21,10 +21,10 @@ public interface ForumService {
 
 	PostDto findPostById(String postId);
 
-	List<PostDto> findPostByAuthor(String author);
+	List<PostDto> findPostsByAuthor(String author);
 
-	List<PostDto> findPostByTags(List<String> tags);
+	List<PostDto> findPostsByTags(List<String> tags);
 
-	List<PostDto> findPostByPeriod(DatePeriodDto datePeriodDto);
+	List<PostDto> findPostsByPeriod(DatePeriodDto datePeriodDto);
 
 }

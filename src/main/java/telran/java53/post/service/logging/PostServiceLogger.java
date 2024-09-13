@@ -18,7 +18,7 @@ public class PostServiceLogger {
 	@Pointcut("execution(* telran.java53.post.service.ForumServiceImpl.findPostById(String)) && args(id)")
 	public void findById(String id) {}
 	
-	@Pointcut("execution(public Iterable<telran.java53.post.dto.PostDto> telran.java53.post.service.ForumServiceImpl.findPosts*(..))")
+	@Pointcut("execution(public java.util.List<telran.java53.post.dto.PostDto> telran.java53.post.service.ForumServiceImpl.findPosts*(..))")
 	public void bulkFindPosts() {}
 	
 	@Pointcut("@annotation(PostLogger)")
