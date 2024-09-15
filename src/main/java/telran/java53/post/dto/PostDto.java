@@ -25,5 +25,13 @@ public class PostDto {
 	  
 	  @Singular
 	  List<CommentDto> comments;
+
+	@Override
+	public String toString() {
+		return "PostDto [id=" + id + ", title=" + title + ", content=" + content + ", author=" + author
+				+ ", dateCreated=" + dateCreated + ", tags=" + tags + ", likes=" + likes + ", comments=" + comments
+				+ "]";
+	}
 	  
+	
 }

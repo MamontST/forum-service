@@ -1,5 +1,6 @@
 package telran.java53.post.service.logging;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
@@ -14,21 +15,24 @@ import lombok.extern.slf4j.Slf4j;
 @Aspect
 @Slf4j(topic = "Post service")
 public class PostServiceLogger {
-	
+
 	@Pointcut("execution(* telran.java53.post.service.ForumServiceImpl.findPostById(String)) && args(id)")
-	public void findById(String id) {}
-	
+	public void findById(String id) {
+	}
+
 	@Pointcut("execution(public java.util.List<telran.java53.post.dto.PostDto> telran.java53.post.service.ForumServiceImpl.findPosts*(..))")
-	public void bulkFindPosts() {}
-	
+	public void bulkFindPosts() {
+	}
+
 	@Pointcut("@annotation(PostLogger)")
-	public void annotatedPostLogger() {}
-	
+	public void annotatedPostLogger() {
+	}
+
 	@Before("findById(id)")
 	public void getPostLogging(String id) {
 		log.info("post with id {}, requested", id);
 	}
-	
+
 	@Around("bulkFindPosts()")
 	public Object bulkFindPostsLogging(ProceedingJoinPoint pjp) throws Throwable {
 		Object[] args = pjp.getArgs();
@@ -38,9 +42,17 @@ public class PostServiceLogger {
 		log.info("method {} took {} ms", pjp.getSignature().getName(), end - start);
 		return result;
 	}
-	
-	@AfterReturning("annotatedPostLogger()")
-	public void annotatedPostLoggerLogging() {
-		log.info("annotated by PostLogger method done");
+
+	@AfterReturning(pointcut = "annotatedPostLogger()", returning = "result")
+	public void annotatedPostLoggerLogging(JoinPoint jp, Object result) throws Throwable {
+
+		String methodName = jp.getSignature().getName();
+		log.info("annotated by PostLogger method {}", methodName);
+
+		if (result == null) {
+			log.error("Method {} returned null", methodName);
+		} else {
+			log.info("Method returned: {}", result);
+		}
 	}
 }
